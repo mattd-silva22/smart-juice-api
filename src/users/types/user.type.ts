@@ -1,16 +1,13 @@
+import { TAddress } from 'src/shared/types/address.type';
+
 export type TUser = {
   id: string;
   username: string;
-  email: string;
   firstName: string;
   lastName: string;
   password: string;
+  cpf: string;
   createdAt: Date;
   updatedAt: Date;
-  address: {
-    street: string;
-    city: string;
-    state: string;
-    zip: string;
-  };
+  address?: TAddress;
 };

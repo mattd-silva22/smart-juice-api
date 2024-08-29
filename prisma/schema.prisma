@@ -27,7 +27,7 @@ model users {
 
 model address {
   id        String   @id @default(uuid())
-  user      users    @relation(fields: [userId], references: [id]) // A referência é mantida aqui
+  user      users    @relation(fields: [userId], references: [id])
   userId    String   @unique
   street    String
   city      String
