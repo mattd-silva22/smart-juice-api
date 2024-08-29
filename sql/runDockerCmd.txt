@@ -1,0 +1,5 @@
+cd ./sql
+
+docker build -t smart-juice-db-dev .
+
+docker run -d -p 5432:5432 --name my-smart-juice-db smart-juice-db-dev
