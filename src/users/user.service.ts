@@ -21,10 +21,10 @@ export class UserService {
 
   async findUserByUsername(username: string): Promise<TUser> {
     const user = await this.findUserByUsernameUsecase.execute(username);
-
     if (!user) {
       return user as TUser;
-      throw new Error('User not found');
     }
+
+    return user;
   }
 }

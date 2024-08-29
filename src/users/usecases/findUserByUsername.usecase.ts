@@ -6,6 +6,6 @@ export class FindUserByUsernameUsecase {
   constructor(private readonly userRepository: UserRepository) {}
 
   async execute(username: string): Promise<TUser> {
-    return this.userRepository.findByUsername(username);
+    return await this.userRepository.findByUsername(username);
   }
 }

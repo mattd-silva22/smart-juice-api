@@ -12,7 +12,8 @@ export class AuthService {
 
   async validateUser(username: string, password: string): Promise<any> {
     // Valide o usuário no banco de dados (exemplo simplificado)
-    const user = await this.findUserByUsername(username);
+    const user = await this.userService.findUserByUsername(username);
+
     if (user && bcrypt.compareSync(password, user.password)) {
       return user;
     }
@@ -27,10 +28,10 @@ export class AuthService {
   }
 
   // Função para buscar usuário (mockado como exemplo)
-  async findUserByUsername(username: string) {
-    const users = [
-      { id: 1, username: 'user', password: bcrypt.hashSync('password', 10) },
-    ];
-    return users.find((user) => user.username === username);
-  }
+  // async findUserByUsername(username: string) {
+  //   const users = [
+  //     { id: 1, username: 'user', password: bcrypt.hashSync('password', 10) },
+  //   ];
+  //   return users.find((user) => user.username === username);
+  // }
 }
