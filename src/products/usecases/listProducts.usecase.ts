@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { ProductQueryDto } from '../dtos/productQuery.dto';
 import { ProductRepository } from '../product.repository';
 @Injectable()
-export class SearchProductUseCase {
+export class ListProductsUsecase {
   constructor(private productsRepository: ProductRepository) {}
 
-  execute(query: ProductQueryDto) {
-    const products = this.productsRepository.searchProducts(query);
+  async execute() {
+    const products = await this.productsRepository.listProducts();
     return products;
   }
 }

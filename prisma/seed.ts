@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -51,7 +52,7 @@ async function main() {
   });
 
   // Criar um endereço para uma estação de suco
-  const enderecoEstacao = await prisma.stationAddress.create({
+  const enderecoEstacao1 = await prisma.stationAddress.create({
     data: {
       street: 'Rua das Laranjeiras',
       reference: 'Em frente ao mercado',
@@ -61,13 +62,32 @@ async function main() {
     },
   });
 
+  const enderecoEstacao2 = await prisma.stationAddress.create({
+    data: {
+      street: 'Av Sete de Setembro',
+      reference: 'Proximo ao Farol da Barra',
+      city: 'Salvador',
+      state: 'BA',
+      cep: '01234-567',
+    },
+  });
+
   // Criar uma estação de suco
-  const estacaoDeSuco = await prisma.juiceStation.create({
+  const estacaoDeSuco1 = await prisma.juiceStation.create({
     data: {
       name: 'Estação de Suco Central',
       status: 'OPEN',
       description: 'A principal estação de sucos da cidade.',
-      address: { connect: { id: enderecoEstacao.id } },
+      address: { connect: { id: enderecoEstacao1.id } },
+    },
+  });
+
+  const estacaoDeSuco2 = await prisma.juiceStation.create({
+    data: {
+      name: 'Estação de Suco Barra',
+      status: 'OPEN',
+      description: 'A estação de sucos mais quente da cidade.',
+      address: { connect: { id: enderecoEstacao2.id } },
     },
   });
 
@@ -78,7 +98,7 @@ async function main() {
       lastName: 'Silva',
       cpf: '123.456.789-00',
       username: 'carlossilva',
-      password: 'senha123',
+      password: bcrypt.hashSync('senha123', 10),
       address: {
         create: {
           street: 'Avenida Paulista',
@@ -96,7 +116,7 @@ async function main() {
     data: {
       user: { connect: { id: usuario.id } },
       status: 'CREATED',
-      station: { connect: { id: estacaoDeSuco.id } },
+      station: { connect: { id: estacaoDeSuco1.id } },
       takeAwayDate: new Date(),
       products: {
         create: [

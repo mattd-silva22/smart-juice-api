@@ -12,7 +12,7 @@ export class AuthService {
 
   async validateUser(username: string, password: string): Promise<any> {
     // Valide o usuário no banco de dados (exemplo simplificado)
-    const user = await this.userService.findUserByUsername(username);
+    const user = await this.userService.findUserByUsername(username, true);
 
     if (user && bcrypt.compareSync(password, user.password)) {
       return user;

@@ -3,4 +3,5 @@ export type TAddress = {
   state: string;
   cep: string;
   street: string;
+  reference: string;
 };

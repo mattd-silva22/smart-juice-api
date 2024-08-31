@@ -5,6 +5,8 @@ import { AppService } from 'src/core/app.service';
 import { AuthModule } from 'src/auth/auth.module';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { UserModule } from 'src/users/user.module';
+import { ProductModule } from 'src/products/product.module';
+import { JuiceStationModule } from 'src/juiceStation/juiceStation.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -12,6 +14,8 @@ import { UserModule } from 'src/users/user.module';
     }),
     AuthModule,
     UserModule,
+    ProductModule,
+    JuiceStationModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
