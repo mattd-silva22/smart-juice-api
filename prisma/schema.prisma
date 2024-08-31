@@ -14,25 +14,115 @@ datasource db {
 }
 
 model users {
-  id        String   @id @default(uuid())
+  id        String        @id @default(uuid())
   firstName String
-  cpf       String   @unique
+  cpf       String        @unique
   lastName  String
-  username  String   @unique
+  username  String        @unique
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  address   address?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  address   usersAddress?
+  orders    orders[]
 }
 
-model address {
+model usersAddress {
   id        String   @id @default(uuid())
   user      users    @relation(fields: [userId], references: [id])
   userId    String   @unique
   street    String
+  reference String
   city      String
   state     String
   cep       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model ingredients {
+  id        String            @id @default(uuid())
+  name      String
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  products  productsRecipes[]
+}
+
+model productsRecipes {
+  productId    String
+  ingredientId String
+  product      products    @relation(fields: [productId], references: [id])
+  ingredient   ingredients @relation(fields: [ingredientId], references: [id])
+
+  @@id([productId, ingredientId])
+}
+
+model orders {
+  id           String           @id @default(uuid())
+  user         users            @relation(fields: [userId], references: [id])
+  userId       String
+  status       OrderStatus      @default(CREATED)
+  station      juiceStation     @relation(fields: [stationId], references: [id])
+  stationId    String           @unique
+  takeAwayDate DateTime
+  products     productsOrders[]
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model products {
+  id          String            @id @default(uuid())
+  img_url     String?
+  name        String
+  description String
+  price       Float
+  recipe      productsRecipes[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  orders      productsOrders[] // Relação muitos-para-muitos com pedidos
+}
+
+model productsOrders {
+  productId String
+  orderId   String
+  product   products @relation(fields: [productId], references: [id])
+  order     orders   @relation(fields: [orderId], references: [id])
+
+  @@id([productId, orderId])
+}
+
+model juiceStation {
+  id               String          @id @default(uuid())
+  name             String
+  status           StationStatus   @default(CLOSED)
+  description      String
+  address          stationAddress? @relation(fields: [stationAddressId], references: [id])
+  orders           orders[]
+  stationAddressId String?         @unique
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+}
+
+model stationAddress {
+  id           String        @id @default(uuid())
+  street       String
+  reference    String
+  city         String
+  state        String
+  cep          String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  juiceStation juiceStation? @relation
+}
+
+enum OrderStatus {
+  CREATED
+  CONFIRMED
+  DELIVERED
+  CANCELED
+}
+
+enum StationStatus {
+  OPEN
+  CLOSED
+  MAINTENANCE
 }

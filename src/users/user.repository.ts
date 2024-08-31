@@ -8,12 +8,31 @@ export class UserRepository {
   public async findById(id: string) {
     return await this.prismaService.users.findUnique({
       where: { id },
+      select: {
+        id: true,
+        username: true,
+        firstName: true,
+        cpf: true,
+        lastName: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
   }
 
-  public async findByUsername(username: string) {
+  public async findByUsername(username: string, includePassword: boolean) {
     return await this.prismaService.users.findUnique({
       where: { username },
+      select: {
+        id: true,
+        username: true,
+        firstName: true,
+        cpf: true,
+        lastName: true,
+        createdAt: true,
+        updatedAt: true,
+        password: includePassword,
+      },
     });
   }
 }

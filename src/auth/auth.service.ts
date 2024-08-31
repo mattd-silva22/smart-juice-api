@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { UserService } from 'src/users/user.service';
@@ -20,18 +20,26 @@ export class AuthService {
     return null;
   }
 
+  async getUserFromToken(token: string): Promise<any> {
+    try {
+      const decoded = this.jwtService.verify(token);
+
+      const user = await this.userService.findUserById(decoded.sub);
+
+      if (!user) {
+        throw new UnauthorizedException('Usuário não encontrado.');
+      }
+
+      return user;
+    } catch (UserError) {
+      throw new UnauthorizedException('Token inválido ou expirado.');
+    }
+  }
+
   async login(user: any) {
     const payload = { username: user.username, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
     };
   }
-
-  // Função para buscar usuário (mockado como exemplo)
-  // async findUserByUsername(username: string) {
-  //   const users = [
-  //     { id: 1, username: 'user', password: bcrypt.hashSync('password', 10) },
-  //   ];
-  //   return users.find((user) => user.username === username);
-  // }
 }

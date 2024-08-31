@@ -5,9 +5,11 @@ export type TUser = {
   username: string;
   firstName: string;
   lastName: string;
-  password: string;
+  password?: string;
   cpf: string;
   createdAt: Date;
   updatedAt: Date;
   address?: TAddress;
 };
+
+export type TAuthUser = {};

@@ -5,7 +5,7 @@ import { UserRepository } from 'src/users/user.repository';
 export class FindUserByUsernameUsecase {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async execute(username: string): Promise<TUser> {
-    return await this.userRepository.findByUsername(username);
+  async execute(username: string, includePassword: boolean): Promise<TUser> {
+    return await this.userRepository.findByUsername(username, includePassword);
   }
 }

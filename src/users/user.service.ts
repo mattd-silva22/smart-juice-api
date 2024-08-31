@@ -19,8 +19,14 @@ export class UserService {
     return user;
   }
 
-  async findUserByUsername(username: string): Promise<TUser> {
-    const user = await this.findUserByUsernameUsecase.execute(username);
+  async findUserByUsername(
+    username: string,
+    includePassword: boolean = false,
+  ): Promise<TUser> {
+    const user = await this.findUserByUsernameUsecase.execute(
+      username,
+      includePassword,
+    );
     if (!user) {
       return user as TUser;
     }
