@@ -1,8 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { FindUserByIdUsecase } from './usecases/findUserById.usecase';
 import { FindUserByUsernameUsecase } from './usecases/findUserByUsername.usecase';
 import { TUser } from './types/user.type';
-import { ErrorResponse } from 'src/shared/responses/ErrorResponse';
 
 @Injectable()
 export class UserService {
@@ -14,7 +13,7 @@ export class UserService {
     const user = await this.findUserByIdUsecase.execute(id);
 
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException('Usuário não encontrado');
     }
 
     return user;
@@ -24,13 +23,9 @@ export class UserService {
     username: string,
     includePassword: boolean = false,
   ): Promise<TUser> {
-    try {
-      return await this.findUserByUsernameUsecase.execute(
-        username,
-        includePassword,
-      );
-    } catch (error) {
-      throw new ErrorResponse('Erro ao buscar usuário', error.message);
-    }
+    return await this.findUserByUsernameUsecase.execute(
+      username,
+      includePassword,
+    );
   }
 }

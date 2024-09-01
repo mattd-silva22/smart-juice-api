@@ -6,12 +6,14 @@ import {
   Res,
   UseGuards,
   HttpStatus,
+  NotFoundException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { UserService } from 'src/users/user.service';
 import { FindUserDto } from './dtos/findUser.dto';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
-import { ErrorResponse } from 'src/shared/responses/ErrorResponse';
+
+import { ValidationErrorsException } from 'src/shared/responses/ValidationErrorsException';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -24,24 +26,21 @@ export class UserController {
     @Res() res: Response,
     @Query() query: FindUserDto,
   ) {
-    const erros = [];
+    const errors = [];
 
     if (!query.id && !query.username) {
-      erros.push('Você deve informar um id ou um username');
+      errors.push('Você deve informar um id ou um username');
     }
 
-    if (erros.length) {
-      const response = new ErrorResponse('Erro ao buscar usuário', erros);
-      res.status(HttpStatus.BAD_REQUEST).json(response);
+    if (errors.length) {
+      throw new ValidationErrorsException(errors);
     }
 
     if (query.id) {
       const user = await this.userService.findUserById(query.id);
 
       if (!user) {
-        res
-          .status(HttpStatus.NOT_FOUND)
-          .json(new ErrorResponse('Usuário não encontrado'));
+        throw new NotFoundException('Usuário não encontrado');
       }
 
       res.status(HttpStatus.OK).json(user);
@@ -51,9 +50,7 @@ export class UserController {
       const user = await this.userService.findUserByUsername(query.username);
 
       if (!user) {
-        res
-          .status(HttpStatus.NOT_FOUND)
-          .json(new ErrorResponse('Usuário não encontrado'));
+        throw new NotFoundException('Usuário não encontrado');
       }
 
       res.status(HttpStatus.OK).json(user);

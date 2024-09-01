@@ -1,6 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/shared/database/prisma.service';
-import { ErrorResponse } from 'src/shared/responses/ErrorResponse';
 
 @Injectable()
 export class UserRepository {
@@ -21,7 +24,7 @@ export class UserRepository {
         },
       });
     } catch (dbError) {
-      throw new ErrorResponse(
+      throw new InternalServerErrorException(
         'Erro na camada de banco de dados',
         dbError.message,
       );
@@ -44,7 +47,7 @@ export class UserRepository {
         },
       });
     } catch (dbError) {
-      throw new ErrorResponse(
+      throw new InternalServerErrorException(
         'Erro na camada de banco de dados',
         dbError.message,
       );

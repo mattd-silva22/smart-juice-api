@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { OrdersRepository } from '../orders.repository';
 
 @Injectable()
 export class FindOrderByIdUsecase {
-  constructor() {}
+  constructor(private ordersRepository: OrdersRepository) {}
 
-  async execute() {}
+  async execute(orderId: string) {
+    return await this.ordersRepository.findOrderById(orderId);
+  }
 }

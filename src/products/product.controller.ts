@@ -10,13 +10,13 @@ import {
   Body,
   ParseUUIDPipe,
 } from '@nestjs/common';
-import { ProductRepository } from './product.repository';
+
 import { Request, Response } from 'express';
 import { JwtAuthGuard } from 'src/auth/auth.guard';
 import { ProductService } from './product.service';
 import { ProductQueryDto } from './dtos/productQuery.dto';
-import { ErrorResponse } from 'src/shared/responses/ErrorResponse';
-import { ProductParamDto } from './dtos/productParam.dto';
+
+import { ValidationErrorsException } from 'src/shared/responses/ValidationErrorsException';
 @UseGuards(JwtAuthGuard)
 @Controller('products')
 export class ProductController {
@@ -51,8 +51,7 @@ export class ProductController {
     }
 
     if (errors.length) {
-      const response = new ErrorResponse('Erro ao buscar produtos', errors);
-      res.status(HttpStatus.BAD_REQUEST).json(response);
+      throw new ValidationErrorsException(errors);
     }
     const data = await this.productService.searchProducts(query);
 

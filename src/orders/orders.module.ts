@@ -8,9 +8,10 @@ import { ListUserOrdersUsecase } from './usecases/listUserOrders.usecase';
 import { DeliveryOrderUsecase } from './usecases/deliveryOrder.usecase';
 import { PrismaService } from 'src/shared/database/prisma.service';
 import { CreateOrderUsecase } from './usecases/createOrder.usecase';
+import { UserModule } from 'src/users/user.module';
 
 @Module({
-  imports: [],
+  imports: [UserModule],
   controllers: [OrdersController],
   providers: [
     PrismaService,

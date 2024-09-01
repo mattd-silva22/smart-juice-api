@@ -62,7 +62,7 @@ model orders {
   userId       String
   status       OrderStatus      @default(CREATED)
   station      juiceStation     @relation(fields: [stationId], references: [id])
-  stationId    String           @unique
+  stationId    String
   takeAwayDate DateTime
   products     productsOrders[]
   createdAt    DateTime         @default(now())
