@@ -7,6 +7,8 @@ import { PrismaService } from 'src/shared/database/prisma.service';
 import { UserModule } from 'src/users/user.module';
 import { ProductModule } from 'src/products/product.module';
 import { JuiceStationModule } from 'src/juiceStation/juiceStation.module';
+import { OrdersController } from 'src/orders/orders.controller';
+import { OrdersModule } from 'src/orders/orders.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -16,6 +18,7 @@ import { JuiceStationModule } from 'src/juiceStation/juiceStation.module';
     UserModule,
     ProductModule,
     JuiceStationModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

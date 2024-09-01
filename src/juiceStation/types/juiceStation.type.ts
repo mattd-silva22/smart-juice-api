@@ -1,10 +1,10 @@
 import { TAddress } from 'src/shared/types/address.type';
-import { TJuiceStationStatus } from './juiceStationStatus.enum';
+import { EJuiceStationStatus } from './juiceStationStatus.enum';
 
 export type TJuiceStation = {
   id: string;
   name: string;
-  status: TJuiceStationStatus;
+  status: EJuiceStationStatus;
   description: string;
   address: TAddress;
 };

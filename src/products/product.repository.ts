@@ -18,7 +18,7 @@ export class ProductRepository {
   }
 
   async searchProducts(query: ProductQueryDto) {
-    const { name, description } = query;
+    const { name = '', description = '' } = query;
     return await this.prismaService.products.findMany({
       where: {
         name: {

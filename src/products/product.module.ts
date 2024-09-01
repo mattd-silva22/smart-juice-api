@@ -4,7 +4,7 @@ import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
 import { FindProductByIdUsecase } from './usecases/findProductById.usecase';
 import { ListProductsUsecase } from './usecases/listProducts.usecase';
-import { SearchProductUseCase } from './usecases/searchProduct.usecase';
+import { SearchProductUsecase } from './usecases/searchProduct.usecase';
 import { ProductRepository } from './product.repository';
 
 @Module({
@@ -13,7 +13,7 @@ import { ProductRepository } from './product.repository';
   providers: [
     PrismaService,
     ProductRepository,
-    SearchProductUseCase,
+    SearchProductUsecase,
     ListProductsUsecase,
     FindProductByIdUsecase,
     ProductService,

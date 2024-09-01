@@ -1,1 +1,5 @@
-export type TJuiceStationStatus = 'open' | 'closed' | 'maintenance';
+export enum EJuiceStationStatus {
+  OPEN = 'OPEN',
+  CLOSED = 'CLOSED',
+  MAINTENANCE = 'MAINTENANCE',
+}
