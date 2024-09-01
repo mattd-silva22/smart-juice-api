@@ -1,73 +1,104 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+### Sistema de Maquinas de venda Smart Juice
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+### Tecnologias:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- Nest.Js
+- Docker
+- Prisma ORM
+- PostgreSQL
 
-## Description
+### Funcionalidade:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+As principais funcionalidades dessa aplicação são:
 
-## Installation
+- Realizar pedidos de sucos e produtos;
+- Realizar entrega de pedidos na Estação selecionada;
+
+#### Modulo de Auth
+
+Responsável pela gestão de autorizações dentro da aplicação.
+
+- Realizar login;
+- Autenticação via JWT;
+
+#### Modulo de Usuário
+
+Responsável pela gestão dos usuários e clientes cadastrados na plataforma.
+
+- Buscar Usuário por ID;
+- Buscar Usuário por Username;
+
+#### Modulo de Produtos
+
+Responsável pela gestão de Produtos, Receitas e Ingredientes da aplicação.
+
+- Buscar Produto por ID;
+- Pesquisar Produto;
+- Listar todos os Produtos;
+
+### Module Juice Station
+
+Responsável pela gestão das maquinas e operação realizada pela mesmas.
+
+- Buscar Estação por ID;
+- Listar todas as Estações
+
+### Documentação
+
+#### Como executar o projeto
+
+Todo projeto está disponível para uso via Docker Compose.
+
+Para rodar o projeto via Docker bastar executar os seguintes comandos na pasta raiz do projeto:
 
 ```bash
-$ npm install
+docker-compose build --no-cache
+docker-compose up
+
 ```
 
-## Running the app
+Após a execução verifique em seu docker se os containers foram criados com sucesso.
 
-```bash
-# development
-$ npm run start
+A API está disponível na porta localhost:3000 e o Banco de Dados na localhost:5532.
 
-# watch mode
-$ npm run start:dev
+#### Autenticação
 
-# production mode
-$ npm run start:prod
+Todas as rotas da aplicação estão protegidas pelo um Guard JWT. Desta forma, é necessário realizar login na aplicação através da seguinte rota
+
+##### Login
+
+**POST /auth/login**
+
+**Body :**
+
+```json
+{
+  "username": "carlossilva",
+  "password": "senha123"
+}
 ```
 
-## Test
+**Resposta**s:
 
-```bash
-# unit tests
-$ npm run test
+**Caso sucesso**
 
-# e2e tests
-$ npm run test:e2e
+Http code: **200**
+body:
 
-# test coverage
-$ npm run test:cov
+```json
+{
+  "access_token": "seu-token-acesso"
+}
 ```
 
-## Support
+**Caso falha**
+Http code: **401**
+body:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```json
+{
+  "message": "Invalid credentials"
+}
+```
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+**A documentação do restante da aplicação está localizado na pasta 'docs' em uma collection do ThunderClient.**
